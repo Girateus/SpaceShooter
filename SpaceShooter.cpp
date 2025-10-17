@@ -75,6 +75,8 @@ int main()
 
 		player.HandleEvent();
 		player.Move(deltaTime.asSeconds());
+		enemy.Update();
+		enemy.Move(deltaTime.asSeconds());
 		//player.setPosition({ 0,0});
 
 		window.clear(background_color);

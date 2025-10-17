@@ -11,6 +11,7 @@ class Enemy : public sf::Drawable, public sf::Transformable
 public:
 	void Load();
 	void Move(float);
+	void Update();
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
