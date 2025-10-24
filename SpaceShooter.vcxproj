@@ -125,15 +125,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Enemy.cc" />
+    <ClCompile Include="auto_entity.cc" />
+    <ClCompile Include="Meteor.cc" />
     <ClCompile Include="Motor.cc" />
     <ClCompile Include="Player.cc" />
+    <ClCompile Include="Projectiles.cc" />
+    <ClCompile Include="entityManager.cc" />
     <ClCompile Include="SpaceShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.hpp" />
+    <ClInclude Include="auto_entity.hpp" />
+    <ClInclude Include="Meteor.hpp" />
     <ClInclude Include="Motor.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Projectiles.hpp" />
+    <ClInclude Include="entityManager.hpp" />
+    <ClInclude Include="Randomizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
