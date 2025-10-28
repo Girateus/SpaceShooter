@@ -16,6 +16,6 @@ inline void Enemy::Move(float deltaTime)
 
 inline void Enemy::Load()
 {
-	AutoEntity::Load("Data\\PNG\\Enemies\\enemyBlack1.png", { 0, 1 }, 300);
+	AutoEntity::Load("data\\sprites\\Enemies\\enemyBlack1.png", { 0, 1 }, 300);
 }
 

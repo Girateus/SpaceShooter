@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Projectiles.hpp"
 #include "Enemy.hpp"
+#include "Meteor.hpp"
 class EntityManager : public sf::Drawable
 {
 	
@@ -38,6 +39,18 @@ public:
 	{
 		entities_.emplace_back(new Projectile());
 
+
+		entities_.back()->Load();
+		entities_.back()->SetPosition(position);
+	}
+};
+
+class MeteorManager : public EntityManager
+{
+public:
+	void InitEntities(sf::Vector2f position) override
+	{
+		entities_.emplace_back(new Meteor());
 
 		entities_.back()->Load();
 		entities_.back()->SetPosition(position);

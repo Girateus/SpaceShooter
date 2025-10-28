@@ -17,6 +17,6 @@ inline void Projectile::Move(float deltaTime)
 
 inline void Projectile::Load()
 {
-	AutoEntity::Load("data\\sprites\\Lasers\\laserGreen08.png", {0, -1}, 600);
+	AutoEntity::Load("data\\sprites\\Lasers\\laserGreen08.png", {0, -1}, 300);
 }
 

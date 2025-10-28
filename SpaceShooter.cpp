@@ -44,8 +44,7 @@ int main()
 	enemy.Load();*/
 	EnemyManager enemies;
 
-	Meteor meteor;
-	meteor.Load();
+	MeteorManager meteor;
 
 	sf::Color background_color(sf::Color::Black);
 
@@ -64,17 +63,13 @@ int main()
 			{
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 					window.close();
-			}
-			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-			{
-				if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
-				{
 
-				}
-
-				if(keyPressed->scancode == sf::Keyboard::Scancode::E)
+				if (keyPressed->scancode == sf::Keyboard::Scancode::E)
 				{
+					std::cout << "spawn enemies\n";
 					enemies.InitEntities({ 400, 0 });
+					std::cout << "spawn meteor\n";
+					meteor.InitEntities({ 100, 0 });
 				}
 			}
 
@@ -96,15 +91,15 @@ int main()
 		
 
 		player.HandleEvent();
-		if (player.CheckCollision(enemies.GetEntities()))
+		if (player.CheckCollision(enemies.GetEntities()) || player.CheckCollision(meteor.GetEntities()))
 		{
 			player.SetPosition(playerSpawnPosition);
 		}
 		player.CheckProjectileCollisions(enemies.GetEntities());
 		player.Update(window ,deltaTime.asSeconds());
 		//player.Move(deltaTime.asSeconds());
-		meteor.Update();
-		meteor.Move(deltaTime.asSeconds());  
+		meteor.Update(window,deltaTime.asSeconds());
+		//meteor.Move(deltaTime.asSeconds());  
 		enemies.Update(window, deltaTime.asSeconds());
 		//player.setPosition({ 0,0});
 		

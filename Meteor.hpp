@@ -1,19 +1,23 @@
 #pragma once
-#include "SFML/Graphics.hpp"
-#include "Motor.hpp"
-#include <iostream>
+#include "auto_entity.hpp"
 
-class Meteor : public sf::Drawable, public sf::Transformable
+class Meteor : public AutoEntity
 {
-	sf::Texture MeteorTexture;
-	Motor motor_;
 
 public:
-	void Load();
-	void Move(float);
-	void Update();
+	void Load() override;
+	void Move(float) override;
+	//void Update();
 
-protected:
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
+
+inline void Meteor::Move(float deltaTime)
+{
+	rect_.setPosition(motor_.Move(deltaTime));
+}
+
+inline void Meteor::Load()
+{
+	AutoEntity::Load("data\\sprites\\Meteors\\meteorBrown_big1.png", {0, 1}, 100);
+}
 

@@ -62,6 +62,7 @@ void Player::CheckProjectileCollisions(std::vector<AutoEntity*>& others)
 
 			if (bullet->GetBounds().findIntersection(other->GetBounds()))
 			{
+				
 				other->StillAlive = false;
 				bullet->StillAlive = false;
 			}
@@ -69,6 +70,7 @@ void Player::CheckProjectileCollisions(std::vector<AutoEntity*>& others)
 
 	}
 }
+
 
 void Player::HandleEvent()
 {
