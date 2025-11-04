@@ -39,6 +39,15 @@
     <ClCompile Include="auto_entity.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ui.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="state_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.hpp">
@@ -56,13 +65,22 @@
     <ClInclude Include="Meteor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Randomizer.h">
+    <ClInclude Include="Randomizer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="entityManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="auto_entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="state_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

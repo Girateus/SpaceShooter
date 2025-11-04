@@ -4,14 +4,17 @@
 
 void AutoEntity::Load(std::string_view pathFile, sf::Vector2f direction, float speed)
 {
+	//load texture for any entitie
 	Texture.loadFromFile(pathFile);
 
-	//motor_.SetPosition({ 500, 400 });
+	//set the direction and speed of any entitie
 	motor_.SetDirection(direction);
 	motor_.SetSpeed(speed);
 
+	//set a rectangle to help with collision
 	rect_.setTexture(&Texture);
 	rect_.setSize({ static_cast<float>(Texture.getSize().x), static_cast<float>(Texture.getSize().y) });
+	rect_.setOrigin({ static_cast<float>(Texture.getSize().x/2.f), static_cast<float>(Texture.getSize().y)/ 2.f });
 }
 
 

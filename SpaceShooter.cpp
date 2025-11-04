@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <SFML/Audio.hpp>
 #include "SFML/Main.hpp"
 #include "SFML/Graphics.hpp"
 #include "Player.hpp"
@@ -7,15 +8,17 @@
 #include "entityManager.hpp"
 #include "Motor.hpp"
 #include "Meteor.hpp"
-#include "Randomizer.h"
+#include "Randomizer.hpp"
 #include "auto_entity.hpp"
 #include "Enemy.hpp"
+#include "ui.hpp"
+#include "AudioManager.hpp"
 
 int main()
 {
-	constexpr sf::Vector2f playerSpawnPosition = { 400, 580 };
+	constexpr sf::Vector2f playerSpawnPosition = { 960, 600 };
 
-	sf::RenderWindow window(sf::VideoMode({ 1000, 800 }), "Star Shooter");
+	sf::RenderWindow window(sf::VideoMode({ 1920, 1200 }), "Star Shooter");
 
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(120);
@@ -29,7 +32,7 @@ int main()
 	
 
 	RandomInit();
-
+	AudioManager audio;
 	Motor motor;
 	motor.SetPosition({ 0,0 });
 	motor.SetDirection({ 1,0 });
@@ -39,19 +42,39 @@ int main()
 	//circle.setRadius(5);
 	Player player;
 	player.Load(playerSpawnPosition);
+	player.SetAudioManager(&audio);
 
 	/*Enemy enemy;
 	enemy.Load();*/
 	EnemyManager enemies;
-
 	MeteorManager meteor;
+
+
+sf::Clock enemySpawnClock;
+		sf::Clock meteorSpawnClock;
+
+		const float ENEMY_SPAWN_DELAY = 0.9f;   // en secondes
+		const float METEOR_SPAWN_DELAY = 1.0f;  // en secondes
+	
+
+	UI ui;
+	ui.Load(window);
+	audio.PlayAudio();
+	float volume = 50;
 
 	sf::Color background_color(sf::Color::Black);
 
 	while (window.isOpen())
 	{
 		sf::Time deltaTime = clock.restart();
+				
 
+		//play audio
+		
+		
+
+		
+		
 		while (const std::optional event = window.pollEvent())
 		{
 
@@ -62,14 +85,16 @@ int main()
 			else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 			{
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
-					window.close();
-
-				if (keyPressed->scancode == sf::Keyboard::Scancode::E)
 				{
-					std::cout << "spawn enemies\n";
-					enemies.InitEntities({ 400, 0 });
-					std::cout << "spawn meteor\n";
-					meteor.InitEntities({ 100, 0 });
+					window.close();
+					//PlayAudio().stop();
+				}
+					
+
+				
+				if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
+				{
+
 				}
 			}
 
@@ -81,13 +106,10 @@ int main()
 
 
 		//Physics
-		//sf::Vector2f followMouseDirection = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)) - circle.getPosition();
-
-		//motor.SetDirection(followMouseDirection);
 
 		sf::Vector2f position = motor.Move(deltaTime.asSeconds());
 		std::cout << position.x << ":" << position.y << "\n";
-		//circle.setPosition(position);
+	
 		
 
 		player.HandleEvent();
@@ -96,20 +118,38 @@ int main()
 			player.SetPosition(playerSpawnPosition);
 		}
 		player.CheckProjectileCollisions(enemies.GetEntities());
+		player.CheckProjecAsterCollisions(meteor.GetEntities());
 		player.Update(window ,deltaTime.asSeconds());
 		//player.Move(deltaTime.asSeconds());
 		meteor.Update(window,deltaTime.asSeconds());
 		//meteor.Move(deltaTime.asSeconds());  
 		enemies.Update(window, deltaTime.asSeconds());
 		//player.setPosition({ 0,0});
-		
+		ui.Update();
+		// check to make spawn new enemy
+		if (enemySpawnClock.getElapsedTime().asSeconds() >= ENEMY_SPAWN_DELAY)
+		{
+			float xEnemy = RandomSpawnX(1.f, 1920.f);
+			enemies.InitEntities({ xEnemy, 0 });
+			enemySpawnClock.restart();
+		}
+
+		// check to make spawn new meteor
+		if (meteorSpawnClock.getElapsedTime().asSeconds() >= METEOR_SPAWN_DELAY)
+		{
+			float xMeteor = RandomSpawnX(1.f, 1920.f);
+			meteor.InitEntities({ xMeteor, 0 });
+			meteorSpawnClock.restart();
+		}
+
 		
 		window.clear(background_color);
 
-		//window.draw(circle);
+		//draw entities
 		window.draw(player);
 		window.draw(meteor);
 		window.draw(enemies);
+		window.draw(ui);
 		
 
 		window.display();
