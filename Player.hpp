@@ -32,6 +32,7 @@ public:
 	bool CheckCollision(std::vector<AutoEntity*>& others);
 	void CheckProjectileCollisions(std::vector<AutoEntity*>& others);
 	void CheckProjecAsterCollisions(std::vector<AutoEntity*>& others);
+	bool CheckBossProjectileCollision(ProjectileManager& bossProjectiles);
 	void HandleEvent();
 	ProjectileManager& GetProjectiles()
 	{ 

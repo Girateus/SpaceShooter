@@ -120,6 +120,29 @@ void Player::CheckProjecAsterCollisions(std::vector<AutoEntity*>& others)
 	}
 }
 
+bool Player::CheckBossProjectileCollision(ProjectileManager& bossProjectiles)
+{
+	auto& enemyBullets = bossProjectiles.GetEntities();
+
+	for (auto& bullet : enemyBullets)
+	{
+		// Vérifiez si le projectile est en vie et s'il y a intersection
+		if (bullet->StillAlive && rect_.getGlobalBounds().findIntersection(bullet->GetBounds()))
+		{
+			bullet->StillAlive = false; // Détruire le projectile
+
+			// Logique de perte de vie
+			StateManager::LostLife; // Assurez-vous que ceci est une fonction : StateManager::LostLife();
+
+			if (audioManager_) audioManager_->ExplosionAudio();
+
+			// Le joueur est touché, vous pouvez ajouter une réinitialisation de position ou un état de clignotement ici.
+			return true;
+		}
+	}
+	return false;
+}
+
 
 //player input (mouvement and shoot)
 void Player::HandleEvent()

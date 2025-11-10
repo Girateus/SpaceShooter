@@ -88,22 +88,37 @@ void Boss::CheckPlayerCollisions(ProjectileManager& playerProjectiles)
 
 void Boss::HandleShooting(ProjectileManager& bossProjectiles)
 {
-    if (rect_.getPosition().y < STOP_Y_POSITION) return; // Ne tire pas tant qu'il descend
+    if (rect_.getPosition().y < STOP_Y_POSITION) return;
 
     if (shootClock_.getElapsedTime().asSeconds() >= BOSS_SHOOT_DELAY)
     {
-        // Tirez dans 8 directions (0, 45, 90, 135, ..., 315 degrés)
-        for (int i = 0; i < 16; ++i)
+        const int NUM_SHOTS = 20; // Nombre de tirs par salve
+
+        // Le pas d'angle est 360 / 8 = 45 degrés (Pi / 4)
+        const float ANGLE_STEP = 3.14159f / 10.0f;
+
+        for (int i = 0; i < NUM_SHOTS; ++i)
         {
-            float angle = static_cast<float>(i) * (2.0f*3.14159f / 16.0f);
+            // L'angle de tir = angle de base + pas d'angle
+            float angle = spiralAngle_ + static_cast<float>(i) * ANGLE_STEP;
 
             sf::Vector2f direction;
             direction.x = std::cos(angle);
             direction.y = std::sin(angle);
 
-            // Initialiser le projectile avec la position du boss et la direction calculée
             bossProjectiles.InitEntities(rect_.getPosition(), direction);
         }
+
+        // Incrémenter l'angle de base pour le prochain tir (ex: 5 degrés par salve)
+        // Convertir 5 degrés en radians: 5 * (PI / 180)
+        spiralAngle_ += 5.0f * (3.14159f / 180.0f);
+
+        // S'assurer que l'angle reste entre 0 et 2*Pi
+        if (spiralAngle_ > 6.28318f) // 2 * Pi
+        {
+            spiralAngle_ -= 6.28318f;
+        }
+
         shootClock_.restart();
     }
 }

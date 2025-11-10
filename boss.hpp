@@ -26,6 +26,7 @@ private:
 
     sf::Clock shootClock_;
     const float BOSS_SHOOT_DELAY = 0.5f;
+    float spiralAngle_ = 0.0f;
 public:
 
     // load image and position

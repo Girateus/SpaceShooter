@@ -115,15 +115,16 @@ int main()
 		player.CheckProjectileCollisions(enemies.GetEntities());
 		player.CheckProjecAsterCollisions(meteor.GetEntities());
 		boss.CheckPlayerCollisions(player.GetProjectiles());
+		if (player.CheckBossProjectileCollision(bossProjectiles))
+		{
+			player.SetPosition(playerSpawnPosition);
+		}
 		player.Update(window ,deltaTime.asSeconds());
-		//player.Move(deltaTime.asSeconds());
 		meteor.Update(window,deltaTime.asSeconds());
-		//meteor.Move(deltaTime.asSeconds());  
 		enemies.Update(window, deltaTime.asSeconds());
 		boss.Move(deltaTime.asSeconds());
 		boss.HandleShooting(bossProjectiles);
 		bossProjectiles.Update(window, deltaTime.asSeconds());
-		//player.setPosition({ 0,0});
 		ui.Update();
 		// check to make spawn new enemy
 
