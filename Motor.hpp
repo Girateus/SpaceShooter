@@ -13,6 +13,7 @@ public:
 	void SetSpeed(float speed);
 	void SetDirection(sf::Vector2f);
 	void SetPosition(sf::Vector2f);
+	sf::Vector2f GetPosition();
 
 	sf::Vector2f GetDirection();
 

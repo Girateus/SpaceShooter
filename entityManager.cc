@@ -21,6 +21,8 @@ void EntityManager::Update(sf::RenderWindow& window, float deltaTime)
 }
 
 
+
+
 void EntityManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (auto& projectile : entities_)

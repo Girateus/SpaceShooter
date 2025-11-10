@@ -21,6 +21,10 @@ void Motor::SetPosition(sf::Vector2f position)
 {
 	position_ = position;
 }
+sf::Vector2f Motor::GetPosition()
+{
+	return position_;
+}
 sf::Vector2f Motor::GetDirection()
 {
 	return direction_;

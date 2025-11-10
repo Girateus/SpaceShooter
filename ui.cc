@@ -23,7 +23,7 @@ void UI::Load(sf::RenderWindow& window)
 		score_->setCharacterSize(40);
 		score_->setFillColor(sf::Color::White);
 		score_->setPosition({ scoreLabel_->getPosition().x, 80.f });
-		//score_->setString("0000");
+		score_->setString("0000");
 	}
 		
 }

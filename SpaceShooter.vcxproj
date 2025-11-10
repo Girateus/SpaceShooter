@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cc" />
+    <ClCompile Include="boss.cc" />
     <ClCompile Include="Enemy.cc" />
     <ClCompile Include="auto_entity.cc" />
     <ClCompile Include="Meteor.cc" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.hpp" />
+    <ClInclude Include="boss.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="auto_entity.hpp" />
     <ClInclude Include="Meteor.hpp" />

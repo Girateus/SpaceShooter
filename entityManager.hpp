@@ -4,6 +4,7 @@
 #include "Projectiles.hpp"
 #include "Enemy.hpp"
 #include "Meteor.hpp"
+#include "boss.hpp"
 class EntityManager : public sf::Drawable
 {
 	
@@ -41,6 +42,18 @@ public:
 
 
 		entities_.back()->Load();
+		entities_.back()->SetPosition(position);
+	}
+	void InitEntities(sf::Vector2f position, sf::Vector2f direction)
+	{
+		entities_.emplace_back(new Projectile());
+
+		entities_.back()->Load(); // Charge la texture et met la position/direction par défaut
+
+		// ** ÉTAPE CRITIQUE : Écrase la direction par défaut avec celle du boss **
+		// Utilise la nouvelle méthode que nous avons ajoutée à AutoEntity
+		entities_.back()->SetDirection(direction);
+
 		entities_.back()->SetPosition(position);
 	}
 };

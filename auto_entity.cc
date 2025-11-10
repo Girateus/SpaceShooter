@@ -23,6 +23,11 @@ void AutoEntity::SetPosition(sf::Vector2f position)
 	motor_.SetPosition(position);
 }
 
+void AutoEntity::SetDirection(sf::Vector2f direction)
+{
+	motor_.SetDirection(direction);
+}
+
 sf::Vector2f AutoEntity::GetPosition()
 {
 	return rect_.getPosition();

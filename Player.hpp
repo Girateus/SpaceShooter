@@ -33,6 +33,10 @@ public:
 	void CheckProjectileCollisions(std::vector<AutoEntity*>& others);
 	void CheckProjecAsterCollisions(std::vector<AutoEntity*>& others);
 	void HandleEvent();
+	ProjectileManager& GetProjectiles()
+	{ 
+		return projectiles; 
+	}
 
 	void SetPosition(sf::Vector2f);
 

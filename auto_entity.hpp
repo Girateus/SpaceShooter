@@ -16,6 +16,7 @@ protected:
 public:
 	
 	void SetPosition(sf::Vector2f);
+	void SetDirection(sf::Vector2f direction);
 	sf::Vector2f GetPosition();
 	virtual void Move(float) = 0;
 	virtual void Load() = 0;
