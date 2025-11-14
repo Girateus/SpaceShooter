@@ -20,7 +20,7 @@ void Boss::Load(const sf::Vector2f& initialPosition)
     // starting position
     rect_.setPosition(initialPosition);
 }
-
+//move the boss to a certain position
 void Boss::Move(float deltaTime)
 {
      sf::Vector2f currentPos = motor_.GetPosition();
@@ -48,7 +48,7 @@ void Boss::Move(float deltaTime)
        
     }
 }
-
+//check collision betwen the player and the boss projectiles
 void Boss::CheckPlayerCollisions(ProjectileManager& playerProjectiles)
 {
     if (!isAlive_) return;
@@ -76,6 +76,7 @@ void Boss::CheckPlayerCollisions(ProjectileManager& playerProjectiles)
 
 void Boss::HandleShooting(ProjectileManager& bossProjectiles)
 {
+    //start shooting when the boss reach a certain position
     if (rect_.getPosition().y < STOP_Y_POSITION) return;
 
     if (isAlive_)
@@ -83,8 +84,8 @@ void Boss::HandleShooting(ProjectileManager& bossProjectiles)
         if (shootClock_.getElapsedTime().asSeconds() >= bossShootDelay)
         {
             const int NUM_SHOTS = 25; 
-
-            const float ANGLE_STEP = 2 * 3.14159f / 13.0f;
+            //allow the boss to shoot in envery direction of a circle
+            const float ANGLE_STEP = 2 * 3.14159f / 15.0f;
 
             for (int i = 0; i < NUM_SHOTS; ++i)
             {

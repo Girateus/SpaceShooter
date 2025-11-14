@@ -17,17 +17,28 @@ AudioManager::AudioManager()
 	if (!bonjourBuffer_.loadFromFile("data/Audio/Nico.wav"))
 		std::cout << "Error : couldn't load intro sound.\n";
 
+	if (!bossEndBuffer_.loadFromFile("data/Audio/Boss_End.wav"))
+		std::cout << "Error : couldn't load intro sound.\n";
+
+	if (!gameOverBuffer_.loadFromFile("data/Audio/GameOver.wav"))
+		std::cout << "Error : couldn't load intro sound.\n";
+
 
 	shootSound_.emplace(shootBuffer_);
 	explosionSound_.emplace(explosionBuffer_);
 	bonjourSound_.emplace(bonjourBuffer_);
+	bossEndSound_.emplace(bossEndBuffer_);
+	gameOverSound_.emplace(gameOverBuffer_);
 
 	shootSound_->setVolume(12);
 	explosionSound_->setVolume(12);
-	bonjourSound_->setVolume(60);
+	bonjourSound_->setVolume(100);
+	bossEndSound_->setVolume(100);
+	gameOverSound_->setVolume(100);
+
 
 	music_.setLooping(true);
-	music_.setVolume(30);
+	music_.setVolume(40);
 
 	bossMusic_.setLooping(true);
 	bossMusic_.setVolume(0.0f);
@@ -132,4 +143,14 @@ void AudioManager::ExplosionAudio()
 void AudioManager::NicoSound()
 {
 	bonjourSound_->play();
+}
+
+void AudioManager::GameOverSound()
+{
+	gameOverSound_->play();
+}
+
+void AudioManager::BossEndSound()
+{
+	bossEndSound_->play();
 }

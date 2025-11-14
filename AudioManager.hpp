@@ -13,6 +13,9 @@ public:
 	void ShootAudio();//sf::Sound
 	void ExplosionAudio();//sf::Sound
 	void NicoSound();//sf::Sound
+	void GameOverSound();//sf::Sound
+	void BossEndSound();//sf::Sound
+
 
 	void StartBossTrack(const std::string& filename);
 	void Update(float deltaTime);
@@ -33,11 +36,14 @@ private:
 	sf::SoundBuffer shootBuffer_;   // for shooting sound
 	sf::SoundBuffer explosionBuffer_;//for explosion sound
 	sf::SoundBuffer bonjourBuffer_;//for Nico intro
+	sf::SoundBuffer bossEndBuffer_;
+	sf::SoundBuffer gameOverBuffer_;
 
 	std::optional<sf::Sound> shootSound_;
 	std::optional<sf::Sound> explosionSound_;
 	std::optional<sf::Sound> bonjourSound_;
-
+	std::optional<sf::Sound> bossEndSound_;
+	std::optional<sf::Sound> gameOverSound_;
 
    
 };

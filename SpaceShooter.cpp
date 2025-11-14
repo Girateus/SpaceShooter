@@ -28,7 +28,6 @@ int main()
 
 	sf::Clock clock;
 	
-
 	RandomInit();
 	AudioManager audio;
 	Motor motor;
@@ -58,7 +57,7 @@ int main()
 	sf::Sprite backgroundSprite(backgroundTexture);
 
 	const float EnemySpawnDelay = 0.5f;   // in secondes
-	const float MeteorSpawnDelay = 1.f;  // in secondes
+	const float MeteorSpawnDelay = 0.7f;  // in secondes
 	
 	bool bossPhase = false;
 	bool endMusicStarted = false;
@@ -69,6 +68,10 @@ int main()
 	float volume = 50;
 
 	sf::Color background_color(sf::Color::Black);
+
+	bool bossIsDefeated = false;
+	sf::Clock creditsDelayClock;
+	const float CreditsDelaySeconds = 2.0f; // 3 secondes before the credits
 
 	while (window.isOpen())
 	{
@@ -94,12 +97,22 @@ int main()
 		
 		ui.Update();
 
-		if (bossPhase && !boss.IsAlive())
+		if (bossPhase && !boss.IsAlive() && !bossIsDefeated)
 		{
 			if (!ui.IsGameCompleted()) 
 			{
+				bossIsDefeated = true;
+				creditsDelayClock.restart();
+				audio.BossEndSound(); 			
+			}
+		}
+
+		// smooth transition
+		if (bossIsDefeated && !ui.IsGameCompleted())
+		{
+			if (creditsDelayClock.getElapsedTime().asSeconds() >= CreditsDelaySeconds)
+			{
 				ui.SetGameCompleted(true);
-				//StateManager::KillBoss(); 			
 			}
 		}
 
@@ -117,6 +130,7 @@ int main()
 				{
 					
 					audio.StopAllSounds();
+					audio.GameOverSound();
 				}
 			}
 		}
@@ -126,8 +140,6 @@ int main()
 			//Physics
 			sf::Vector2f position = motor.Move(deltaTime.asSeconds());
 			std::cout << position.x << ":" << position.y << "\n";
-
-
 
 			player.HandleEvent();
 			if (player.CheckCollision(enemies.GetEntities()) || player.CheckCollision(meteor.GetEntities()))
@@ -150,7 +162,7 @@ int main()
 
 			if (!bossPhase)
 			{
-				if (StateManager::Score() >= 100)
+				if (StateManager::Score() >= 1000)
 				{
 
 					if (!bossPhase)
@@ -199,9 +211,8 @@ int main()
 			window.draw(bossProjectiles);
 			window.draw(boss);
 		}
-		window.draw(ui);
-		
 
+		window.draw(ui);
 		window.display();
 	}
 }

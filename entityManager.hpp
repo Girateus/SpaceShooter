@@ -34,10 +34,10 @@ public:
 	}
 };
 
-class ProjectileManager : public EntityManager
+class ProjectileManager : public EntityManager 
 {
 public:
-	void InitEntities(sf::Vector2f position) override
+	void InitEntities(sf::Vector2f position) override //player projectile
 	{
 		entities_.emplace_back(new Projectile());
 
@@ -45,7 +45,7 @@ public:
 		entities_.back()->Load();
 		entities_.back()->SetPosition(position);
 	}
-	void InitEntities(sf::Vector2f position, sf::Vector2f direction)
+	void InitEntities(sf::Vector2f position, sf::Vector2f direction) //boss projectile
 	{
 		entities_.emplace_back(new BossProjectile());
 		entities_.back()->Load(); // Load texture

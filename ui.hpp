@@ -10,7 +10,6 @@
 class UI : public sf::Drawable
 {
 private:
-	//sf::Texture Texture_;
 	sf::RectangleShape bigFrame_;
 	sf::RectangleShape scoreFrame_;
 
