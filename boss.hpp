@@ -26,7 +26,7 @@ private:
     bool isAlive_ = true;
 
     sf::Clock shootClock_;
-    const float bossShootDelay = 0.7f;
+    const float bossShootDelay = 0.95f;
     float spiralAngle_ = 0.0f;
 public:
 
