@@ -1,8 +1,9 @@
 #include <iostream>
 
 #include <SFML/Audio.hpp>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
+
 #include "Player.hpp"
 #include "Projectiles.hpp"
 #include "entityManager.hpp"
@@ -16,7 +17,7 @@
 
 int main()
 {
-	constexpr sf::Vector2f playerSpawnPosition = { 960, 600 };
+	constexpr sf::Vector2f playerSpawnPosition = { 960, 1000 };
 
 	sf::RenderWindow window(sf::VideoMode({ 1920, 1200 }), "Star Shooter");
 
@@ -48,11 +49,20 @@ int main()
 	sf::Clock enemySpawnClock;
 	sf::Clock meteorSpawnClock;
 
-	const float ENEMY_SPAWN_DELAY = 1.0f;   // in secondes
-	const float METEOR_SPAWN_DELAY = 1.0f;  // in secondes
+	sf::Texture backgroundTexture;
+
+	if (!backgroundTexture.loadFromFile("data/sprites/background.png"))
+	{
+		std::cout << "Error loading background image\n";
+	}
+	sf::Sprite backgroundSprite(backgroundTexture);
+
+	const float ENEMY_SPAWN_DELAY = 0.7f;   // in secondes
+	const float METEOR_SPAWN_DELAY = 0.9f;  // in secondes
 	
 	bool bossPhase = false;
-
+	bool endMusicStarted = false;
+	
 	UI ui;
 	ui.Load(window);
 	audio.PlayAudio();
@@ -82,8 +92,35 @@ int main()
 			}
 		}
 		
+		ui.Update();
+
+		if (bossPhase && !boss.IsAlive())
+		{
+			if (!ui.IsGameCompleted()) 
+			{
+				ui.SetGameCompleted(true);
+				StateManager::KillBoss(); 			}
+		}
+
+		if (ui.IsGameFinished()) 		{
+			if (!endMusicStarted) 
+			{
+				endMusicStarted = true; 
+
+				if (ui.IsGameCompleted()) // VICTORY
+				{
+					// cue the CREDITS
+					audio.PlayCreditsMusic("data/Audio/credits.wav");
+				}
+				else // Defeat
+				{
+					
+					audio.StopAllSounds();
+				}
+			}
+		}
 		
-		if(!ui.IsGameOver())
+		if(!ui.IsGameFinished())
 		{
 			//Physics
 			sf::Vector2f position = motor.Move(deltaTime.asSeconds());
@@ -109,12 +146,10 @@ int main()
 			boss.Move(deltaTime.asSeconds());
 			boss.HandleShooting(bossProjectiles);
 			bossProjectiles.Update(window, deltaTime.asSeconds());
-			ui.Update();
-			// check to make spawn new enemy
 
 			if (!bossPhase)
 			{
-				if (StateManager::Score() >= 200)
+				if (StateManager::Score() >= 500)
 				{
 
 					if (!bossPhase)
@@ -149,18 +184,12 @@ int main()
 						meteorSpawnClock.restart();
 					}
 				}
-
 			}
-
-			if (StateManager::Life() <= 0)
-			{
-				//ui.;
-			}
-			
-			
 		}
 		window.clear(background_color);
-		if (!ui.IsGameOver())
+
+		window.draw(backgroundSprite);
+		if (!ui.IsGameFinished())
 		{
 			//draw entities
 			window.draw(player);

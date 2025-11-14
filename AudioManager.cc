@@ -41,7 +41,7 @@ void AudioManager::StartBossTrack(const std::string& filename)
 {
 	if (!bossMusic_.openFromFile(filename))
 	{
-		std::cerr << "Error: Couldn't load boss music from " << filename << std::endl;
+		std::cout << "Error: Couldn't load boss music from " << filename << std::endl;
 		return;
 	}
 
@@ -77,6 +77,34 @@ void AudioManager::Update(float deltaTime)
 			fadingOut = false;
 		}
 	}
+}
+
+void AudioManager::StopAllSounds()
+{
+	music_.stop();
+	bossMusic_.stop();
+	credit_.stop();
+
+	
+	if (shootSound_.has_value()) shootSound_->stop();
+	if (explosionSound_.has_value()) explosionSound_->stop();
+	if (bonjourSound_.has_value()) bonjourSound_->stop();
+}
+
+
+void AudioManager::PlayCreditsMusic(const std::string& filename)
+{
+	StopAllSounds();
+
+	if (!credit_.openFromFile(filename))
+	{
+		std::cout << "Error credits song couldn't load " << filename << std::endl;
+		return;
+	}
+
+	credit_.setLooping(true);
+	credit_.setVolume(40.f);
+	credit_.play();
 }
 
 void AudioManager::PlayAudio()

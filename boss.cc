@@ -55,22 +55,19 @@ void Boss::CheckPlayerCollisions(ProjectileManager& playerProjectiles)
 
     auto& bullets = playerProjectiles.GetEntities();
 
-    // Itérer sur les projectiles du joueur (qui sont des AutoEntity*)
+   
     for (size_t i = 0; i < bullets.size(); ++i)
     {
         if (bullets[i]->StillAlive && rect_.getGlobalBounds().findIntersection(bullets[i]->GetBounds()))
         {
             health_--;
-            bullets[i]->StillAlive = false; // Détruire le projectile
-
-            // Si vous avez un AudioManager* dans Boss (non visible ici), jouez le son d'impact
+            bullets[i]->StillAlive = false;
 
             if (health_ <= 0)
             {
                 StateManager::KillBoss();
                 isAlive_ = false;
-                std::cout << "Le Boss est vaincu!" << std::endl;
-                // TO DO: Déclencher l'explosion visuelle, arrêter la musique, etc.
+                std::cout <<  "Boss defeated" << std::endl;
                 return;
             }
         }

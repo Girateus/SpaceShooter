@@ -61,7 +61,7 @@ void UI::Load(sf::RenderWindow& window)
 	{
 		credits_->setCharacterSize(40);
 		credits_->setFillColor(sf::Color::White);
-		credits_->setString("un jeu de Noah P. Munoz\nSous la direction de Sebastien Albert\nAvec la Participation de Alexander King, Tibo Benjamin Robert-Nicoud, Arthur Melchior et Gaëtan Meyer\nMerci d'avoir jouer !!");
+		credits_->setString("Un jeu de Noah P. Munoz\nSous la direction de Sebastien Albert\nAvec la Participation de Alexander Samuel King, Tibo Benjamin Robert-Nicoud,\nArthur Melchior et Gaëtan Meyer\nMerci d'avoir joué !!");
 		credits_->setPosition({ window.getSize().x / 2.85f - lifeLabel_->getLocalBounds().size.x, 450.f });
 	}
 		
@@ -72,10 +72,11 @@ void UI::Update()
 	SetScore(StateManager::Score());
 	SetLife(StateManager::Life());
 
-	if (StateManager::Life() <= 0 && !isGameOver_)
+	if (StateManager::Life() <= 0 && !isGameOver_ && !isGameCompleted_)
 	{
 		isGameOver_ = true;
 	}
+
 }
 
 void UI::SetScore(int score)
@@ -91,7 +92,7 @@ void UI::SetLife(int lives)
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (!isGameOver_)
+	if (!isGameOver_ && !isGameCompleted_)
 	{
 		// Draw standar UI
 		if (scoreLabel_.has_value())
@@ -106,7 +107,23 @@ void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			target.draw(life_.value());
 		}
 	}
-	else
+	//victory
+	else if (isGameCompleted_)
+	{
+		// draw credits
+		if (scoreLabel_.has_value())
+		{
+			target.draw(scoreLabel_.value());
+			target.draw(score_.value());
+		}
+
+		if (credits_.has_value())
+		{
+			target.draw(credits_.value());
+		}
+	}
+	// lost
+	else if (isGameOver_)
 	{
 		// draw Game Over
 		if (gameOver_.has_value())
@@ -114,5 +131,6 @@ void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			target.draw(gameOver_.value());
 		}
 	}
+	
 }
 

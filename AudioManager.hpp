@@ -16,9 +16,14 @@ public:
 
 	void StartBossTrack(const std::string& filename);
 	void Update(float deltaTime);
+
+	void StopAllSounds();
+	void PlayCreditsMusic(const std::string& filename);
+
 private:
 	sf::Music music_; // for longer music
 	sf::Music bossMusic_;
+	sf::Music credit_;
 
 	bool fadingOut = false;
 	const float fadeOutDuration = 2.0f;

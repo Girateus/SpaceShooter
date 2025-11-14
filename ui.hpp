@@ -31,6 +31,7 @@ private:
 	
 
 	bool isGameOver_ = false;
+	bool isGameCompleted_ = false;
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -38,8 +39,10 @@ protected:
 public:
 	void Load(sf::RenderWindow&);
 	void Update();
+	void SetGameCompleted(bool completed) { isGameCompleted_ = completed; }
 	bool IsGameOver() const { return isGameOver_; }
-
+	bool IsGameCompleted() const { return isGameCompleted_; }
+	bool IsGameFinished() const { return isGameOver_ || isGameCompleted_; }
 	
 };
 
