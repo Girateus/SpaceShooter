@@ -84,7 +84,7 @@ void Boss::HandleShooting(ProjectileManager& bossProjectiles)
         {
             const int NUM_SHOTS = 25; 
 
-            const float ANGLE_STEP = 2 * 3.14159f / 20.0f;
+            const float ANGLE_STEP = 2 * 3.14159f / 13.0f;
 
             for (int i = 0; i < NUM_SHOTS; ++i)
             {

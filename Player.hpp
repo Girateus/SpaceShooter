@@ -25,6 +25,12 @@ class Player : public sf::Drawable
 
 	ProjectileManager projectiles;
 
+	bool isInvincible_ = false;
+	sf::Clock invincibilityClock_;
+	const float InvincibilityDuration = 2.0f; // 2.0 secondes d'invincibilité
+	sf::Clock flashClock_;
+	const float FlashInterval = 0.1f; // Clignoter toutes les 0.1 secondes
+
 public:	
 	void SetAudioManager(AudioManager* audioManager);
 	void Load(sf::Vector2f);

@@ -7,6 +7,7 @@
 #include "AudioManager.hpp"
 #include "state_manager.hpp"
 
+static bool isVisible = true;
 
 
 
@@ -28,6 +29,22 @@ void Player::Update(sf::RenderWindow& window, float deltaTime)
 
 	rect_.setPosition(motor_.Move(deltaTime));
 
+	if (isInvincible_)
+	{
+		// 1. Vérifie si la durée d'invincibilité est écoulée
+		if (invincibilityClock_.getElapsedTime().asSeconds() >= InvincibilityDuration)
+		{
+			isInvincible_ = false; // Désactive l'invincibilité
+			isVisible = true; // Assure que le joueur est visible
+		}
+		// 2. Gère le clignotement
+		else if (flashClock_.getElapsedTime().asSeconds() >= FlashInterval)
+		{
+			isVisible = !isVisible; // Inverse la visibilité
+			flashClock_.restart();
+		}
+	}
+
 	projectiles.Update(window, deltaTime);
 }
 
@@ -38,6 +55,11 @@ void Player::SetAudioManager(AudioManager* audioManager)
 //check collision between player and meteor and enemies
 bool Player::CheckCollision(std::vector<AutoEntity*>& others)
 {
+	if (isInvincible_)
+	{
+		return false;
+	}
+
 	for (auto& other : others)
 	{
 		if (other->StillAlive == false)
@@ -46,8 +68,15 @@ bool Player::CheckCollision(std::vector<AutoEntity*>& others)
 		}
 		if (rect_.getGlobalBounds().findIntersection(other->GetBounds()))
 		{
+
 			other->StillAlive = false;
 			StateManager::LostLife();
+
+			isInvincible_ = true;
+			invincibilityClock_.restart();
+			flashClock_.restart();
+			isVisible = false; // Commence invisible pour l'effet de clignotement
+
 			//play explosion sound
 			audioManager_->ExplosionAudio();
 			return true;
@@ -121,6 +150,11 @@ void Player::CheckProjecAsterCollisions(std::vector<AutoEntity*>& others)
 
 bool Player::CheckBossProjectileCollision(ProjectileManager& bossProjectiles)
 {
+	if (isInvincible_)
+	{
+		return false;
+	}
+
 	auto& enemyBullets = bossProjectiles.GetEntities();
 
 	for (auto& bullet : enemyBullets)
@@ -130,6 +164,11 @@ bool Player::CheckBossProjectileCollision(ProjectileManager& bossProjectiles)
 			bullet->StillAlive = false;
 
 			StateManager::LostLife();
+
+			isInvincible_ = true;
+			invincibilityClock_.restart();
+			flashClock_.restart();
+			isVisible = false; // Commence invisible pour l'effet de clignotement
 
 			if (audioManager_) audioManager_->ExplosionAudio();
 
@@ -194,6 +233,11 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	//sf::Sprite sprite(Spaceshipe);
 	target.draw(projectiles);
-	target.draw(rect_, states);
+	// --- NOUVEAU : GESTION DU CLIGNOTEMENT ---
+	// Dessine le joueur seulement s'il est considéré comme visible OU s'il n'est pas invincible
+	if (!isInvincible_ || isVisible)
+	{
+		target.draw(rect_, states);
+	}
 	
 }

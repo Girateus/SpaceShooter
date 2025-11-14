@@ -57,8 +57,8 @@ int main()
 	}
 	sf::Sprite backgroundSprite(backgroundTexture);
 
-	const float ENEMY_SPAWN_DELAY = 0.7f;   // in secondes
-	const float METEOR_SPAWN_DELAY = 0.9f;  // in secondes
+	const float EnemySpawnDelay = 0.5f;   // in secondes
+	const float MeteorSpawnDelay = 1.f;  // in secondes
 	
 	bool bossPhase = false;
 	bool endMusicStarted = false;
@@ -99,7 +99,8 @@ int main()
 			if (!ui.IsGameCompleted()) 
 			{
 				ui.SetGameCompleted(true);
-				StateManager::KillBoss(); 			}
+				//StateManager::KillBoss(); 			
+			}
 		}
 
 		if (ui.IsGameFinished()) 		{
@@ -149,7 +150,7 @@ int main()
 
 			if (!bossPhase)
 			{
-				if (StateManager::Score() >= 500)
+				if (StateManager::Score() >= 100)
 				{
 
 					if (!bossPhase)
@@ -169,7 +170,7 @@ int main()
 
 				else
 				{
-					if (enemySpawnClock.getElapsedTime().asSeconds() >= ENEMY_SPAWN_DELAY)
+					if (enemySpawnClock.getElapsedTime().asSeconds() >= EnemySpawnDelay)
 					{
 						float xEnemy = RandomSpawnX(1.f, 1920.f);
 						enemies.InitEntities({ xEnemy, 0 });
@@ -177,7 +178,7 @@ int main()
 					}
 
 					// check to make spawn new meteor
-					if (meteorSpawnClock.getElapsedTime().asSeconds() >= METEOR_SPAWN_DELAY)
+					if (meteorSpawnClock.getElapsedTime().asSeconds() >= MeteorSpawnDelay)
 					{
 						float xMeteor = RandomSpawnX(1.f, 1920.f);
 						meteor.InitEntities({ xMeteor, 0 });

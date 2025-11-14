@@ -22,7 +22,7 @@ private:
     // Position Y where the boss should stop
     const float STOP_Y_POSITION = 250.0f;
 
-    int health_ = 50;
+    int health_ = 150;
     bool isAlive_ = true;
 
     sf::Clock shootClock_;
