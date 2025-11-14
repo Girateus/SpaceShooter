@@ -8,6 +8,7 @@
 #include "Motor.hpp"
 #include "entityManager.hpp"
 #include "auto_entity.hpp"
+#include "state_manager.hpp"
 
 class ProjectileManager;
 
@@ -25,7 +26,7 @@ private:
     bool isAlive_ = true;
 
     sf::Clock shootClock_;
-    const float BOSS_SHOOT_DELAY = 0.5f;
+    const float bossShootDelay = 0.95f;
     float spiralAngle_ = 0.0f;
 public:
 

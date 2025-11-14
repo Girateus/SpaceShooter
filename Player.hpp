@@ -21,7 +21,7 @@ class Player : public sf::Drawable
 	Motor motor_;
 	AudioManager* audioManager_ = nullptr;
 	sf::Clock shootClock_;
-	const float Shoot_Delay = 0.15f;
+	const float Shoot_Delay = 0.35f;
 
 	ProjectileManager projectiles;
 

@@ -4,11 +4,12 @@ static class StateManager
 
 private:
 	static int score;
-	//static int lives_remaining;
+	static int lives_remaining;
 public:
 	
-	
+	static void KillBoss();
 	static void KillEnemy();
 	static void LostLife();
 	static int Score();
+	static int Life();
 };

@@ -47,7 +47,7 @@ bool Player::CheckCollision(std::vector<AutoEntity*>& others)
 		if (rect_.getGlobalBounds().findIntersection(other->GetBounds()))
 		{
 			other->StillAlive = false;
-			StateManager::LostLife;
+			StateManager::LostLife();
 			//play explosion sound
 			audioManager_->ExplosionAudio();
 			return true;
@@ -110,7 +110,6 @@ void Player::CheckProjecAsterCollisions(std::vector<AutoEntity*>& others)
 			if (bullet->GetBounds().findIntersection(other->GetBounds()))
 			{
 
-				//other->StillAlive = false;
 				bullet->StillAlive = false;
 				//play projectile explosion sound
 				if (audioManager_) audioManager_->ExplosionAudio();
@@ -126,17 +125,15 @@ bool Player::CheckBossProjectileCollision(ProjectileManager& bossProjectiles)
 
 	for (auto& bullet : enemyBullets)
 	{
-		// Vérifiez si le projectile est en vie et s'il y a intersection
 		if (bullet->StillAlive && rect_.getGlobalBounds().findIntersection(bullet->GetBounds()))
 		{
-			bullet->StillAlive = false; // Détruire le projectile
+			bullet->StillAlive = false;
 
-			// Logique de perte de vie
-			StateManager::LostLife; // Assurez-vous que ceci est une fonction : StateManager::LostLife();
+			StateManager::LostLife();
 
 			if (audioManager_) audioManager_->ExplosionAudio();
 
-			// Le joueur est touché, vous pouvez ajouter une réinitialisation de position ou un état de clignotement ici.
+			// player hit
 			return true;
 		}
 	}

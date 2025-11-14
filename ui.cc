@@ -7,6 +7,29 @@ void UI::Load(sf::RenderWindow& window)
 	font_.openFromFile("data\\fonts\\SoleSurvivorRegular.ttf");
 
 	scoreLabel_ = sf::Text(font_);
+	score_ = sf::Text(font_);
+	lifeLabel_ = sf::Text(font_);
+	life_ = sf::Text(font_);
+	gameOver_ = sf::Text(font_);
+	credits_ = sf::Text(font_);
+
+	if (lifeLabel_.has_value())
+	{
+		lifeLabel_->setCharacterSize(40);
+		lifeLabel_->setFillColor(sf::Color::White);
+		lifeLabel_->setString("life :");
+		lifeLabel_->setPosition({ window.getSize().x / 3.f - lifeLabel_->getLocalBounds().size.x, 50.f });
+	}
+	
+	if (life_.has_value())
+	{
+		life_->setCharacterSize(40);
+		life_->setFillColor(sf::Color::White);
+		life_->setPosition({ lifeLabel_->getPosition().x, 80.f });
+		life_->setString("5");
+
+	}
+	
 
 	if (scoreLabel_.has_value())
 	{
@@ -16,7 +39,7 @@ void UI::Load(sf::RenderWindow& window)
 		scoreLabel_->setPosition({ window.getSize().x / 2.f - scoreLabel_->getLocalBounds().size.x, 50.f });
 	}
 		
-	score_ = sf::Text(font_);
+	
 
 	if (score_.has_value())
 	{
@@ -25,13 +48,34 @@ void UI::Load(sf::RenderWindow& window)
 		score_->setPosition({ scoreLabel_->getPosition().x, 80.f });
 		score_->setString("0000");
 	}
+
+	if (gameOver_.has_value())
+	{
+		gameOver_->setCharacterSize(200);
+		gameOver_->setFillColor(sf::Color::Red);
+		gameOver_->setString("GAME OVER");
+		gameOver_->setPosition({ window.getSize().x / 2.85f - lifeLabel_->getLocalBounds().size.x, 450.f });
+	}
+
+	if (credits_.has_value())
+	{
+		credits_->setCharacterSize(40);
+		credits_->setFillColor(sf::Color::White);
+		credits_->setString("un jeu de Noah P. Munoz\nSous la direction de Sebastien Albert\nAvec la Participation de Alexander King, Tibo Benjamin Robert-Nicoud, Arthur Melchior et Gaëtan Meyer\nMerci d'avoir jouer !!");
+		credits_->setPosition({ window.getSize().x / 2.85f - lifeLabel_->getLocalBounds().size.x, 450.f });
+	}
 		
 }
 
 void UI::Update()
 {
 	SetScore(StateManager::Score());
-	//SetLife(3, 5);
+	SetLife(StateManager::Life());
+
+	if (StateManager::Life() <= 0 && !isGameOver_)
+	{
+		isGameOver_ = true;
+	}
 }
 
 void UI::SetScore(int score)
@@ -39,18 +83,36 @@ void UI::SetScore(int score)
 	score_->setString(std::to_string(score));
 }
 
-//void UI::SetLife(int actual_life, int max_life)
-//{
-//	//actual_life_ = actual_life;
-//	//max_life_ = max_life;
-//}
+void UI::SetLife(int lives)
+{
+	life_->setString(std::to_string(lives));
+}
+
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (scoreLabel_.has_value())
+	if (!isGameOver_)
 	{
-		target.draw(scoreLabel_.value());
-		target.draw(score_.value());
+		// Draw standar UI
+		if (scoreLabel_.has_value())
+		{
+			target.draw(scoreLabel_.value());
+			target.draw(score_.value());
+		}
+
+		if (lifeLabel_.has_value())
+		{
+			target.draw(lifeLabel_.value());
+			target.draw(life_.value());
+		}
+	}
+	else
+	{
+		// draw Game Over
+		if (gameOver_.has_value())
+		{
+			target.draw(gameOver_.value());
+		}
 	}
 }
 
